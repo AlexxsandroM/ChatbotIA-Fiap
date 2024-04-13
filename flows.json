@@ -1,0 +1,180 @@
+[
+    {
+        "id": "a72034be989d4c25",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "7f59999f9805c2f5",
+        "type": "watson-assistant-v2",
+        "z": "a72034be989d4c25",
+        "name": "WA",
+        "service-endpoint": "https://api.us-south.assistant.watson.cloud.ibm.com/instances/48ba48c3-9115-47bc-b257-02088947b6e0",
+        "assistant_id": "dfa32103-8f81-434e-930b-a9f345fdb55d",
+        "debug": false,
+        "restart": false,
+        "return_context": true,
+        "alternate_intents": false,
+        "multisession": true,
+        "timeout": "",
+        "optout-learning": false,
+        "persist-session-id": false,
+        "x": 510,
+        "y": 120,
+        "wires": [
+            [
+                "35103b717ba7d427",
+                "2d17a05fa8384984"
+            ]
+        ]
+    },
+    {
+        "id": "c905556e77a97926",
+        "type": "telegram sender",
+        "z": "a72034be989d4c25",
+        "name": "",
+        "bot": "4d202f65d16dbbef",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 750,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f64585e80d54d2b8",
+        "type": "telegram receiver",
+        "z": "a72034be989d4c25",
+        "name": "",
+        "bot": "4d202f65d16dbbef",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "x": 130,
+        "y": 260,
+        "wires": [
+            [
+                "502b94b5475454dc"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "35103b717ba7d427",
+        "type": "debug",
+        "z": "a72034be989d4c25",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "502b94b5475454dc",
+        "type": "function",
+        "z": "a72034be989d4c25",
+        "name": "prepWA",
+        "func": "msg.params={\n    \"session_id\": 123\n};\nmsg.chatId = msg.payload.chatId;\nmsg.payload = msg.payload.content;\n\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 180,
+        "wires": [
+            [
+                "7f59999f9805c2f5"
+            ]
+        ]
+    },
+    {
+        "id": "2d17a05fa8384984",
+        "type": "function",
+        "z": "a72034be989d4c25",
+        "name": "prepWA",
+        "func": "msg.payload = {\n    chatId: msg.chatId,\n    type: \"message\",\n    content: msg.payload.output.generic[0].text\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 200,
+        "wires": [
+            [
+                "c905556e77a97926"
+            ]
+        ]
+    },
+    {
+        "id": "91aefeae6830a5fe",
+        "type": "watson-speech-to-text",
+        "z": "a72034be989d4c25",
+        "name": "",
+        "alternatives": 1,
+        "speakerlabels": true,
+        "smartformatting": false,
+        "lang": "pt-BR",
+        "langhidden": "pt-BR",
+        "langcustom": "NoCustomisationSetting",
+        "langcustomhidden": "",
+        "custom-weight": "0.5",
+        "band": "BroadbandModel",
+        "bandhidden": "",
+        "keywords": "",
+        "keywords-threshold": "0.5",
+        "word-confidence": false,
+        "password": "",
+        "apikey": "btsBQ_QvHITcNw045rwXQ43PvvDdaii2lyeIbtj1WWrB",
+        "payload-response": true,
+        "streaming-mode": false,
+        "streaming-mute": true,
+        "auto-connect": false,
+        "discard-listening": false,
+        "disable-precheck": false,
+        "service-endpoint": "https://api.us-south.speech-to-text.watson.cloud.ibm.com/instances/e2c01387-efbe-4403-a0d8-43e882b0ab50",
+        "x": 320,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4d202f65d16dbbef",
+        "type": "telegram bot",
+        "botname": "t.me/IA_fiap_bot",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "updatemode": "polling",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    }
+]
