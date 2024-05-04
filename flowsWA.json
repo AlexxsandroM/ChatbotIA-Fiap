@@ -1,0 +1,207 @@
+[
+    {
+        "id": "479cdb5f64af25aa",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "076136056e19bd6c",
+        "type": "debug",
+        "z": "479cdb5f64af25aa",
+        "name": "entrada no telegram",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 380,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "f7c057a304a13797",
+        "type": "telegram receiver",
+        "z": "479cdb5f64af25aa",
+        "name": "",
+        "bot": "f5f2c166368ceb61",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "x": 170,
+        "y": 560,
+        "wires": [
+            [
+                "076136056e19bd6c",
+                "65f1e192cee02b3f"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "b0bcb6e196782b4b",
+        "type": "telegram sender",
+        "z": "479cdb5f64af25aa",
+        "name": "",
+        "bot": "f5f2c166368ceb61",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 930,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "62ca5c91fc131866",
+        "type": "watson-assistant-v2",
+        "z": "479cdb5f64af25aa",
+        "name": "WA Alex",
+        "service-endpoint": "",
+        "assistant_id": "857a1e3b-e4a5-4141-86ff-e1a666fb9f0f",
+        "debug": false,
+        "restart": false,
+        "return_context": true,
+        "alternate_intents": false,
+        "multisession": true,
+        "timeout": "",
+        "optout-learning": false,
+        "persist-session-id": false,
+        "x": 540,
+        "y": 560,
+        "wires": [
+            [
+                "954cd341693fb0df",
+                "08dbca8d586339da"
+            ]
+        ]
+    },
+    {
+        "id": "954cd341693fb0df",
+        "type": "debug",
+        "z": "479cdb5f64af25aa",
+        "name": "resposta para o telegram",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 750,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "65f1e192cee02b3f",
+        "type": "change",
+        "z": "479cdb5f64af25aa",
+        "name": "Prepara Entrada",
+        "rules": [
+            {
+                "t": "set",
+                "p": "params.session_id",
+                "pt": "msg",
+                "to": "payload.chatId",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "chatid",
+                "pt": "msg",
+                "to": "payload.chatId",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.content",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 370,
+        "y": 680,
+        "wires": [
+            [
+                "62ca5c91fc131866"
+            ]
+        ]
+    },
+    {
+        "id": "08dbca8d586339da",
+        "type": "change",
+        "z": "479cdb5f64af25aa",
+        "name": "Preparando Retorno",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload.chatId",
+                "pt": "msg",
+                "to": "chatId",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload.type",
+                "pt": "msg",
+                "to": "message",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload.content",
+                "pt": "msg",
+                "to": "payload.output.generic[0].text",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 720,
+        "y": 680,
+        "wires": [
+            [
+                "b0bcb6e196782b4b"
+            ]
+        ]
+    },
+    {
+        "id": "f5f2c166368ceb61",
+        "type": "telegram bot",
+        "botname": "AlexChatFiapBot",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "updatemode": "polling",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    }
+]
